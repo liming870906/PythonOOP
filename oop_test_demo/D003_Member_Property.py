@@ -69,6 +69,18 @@ class Foo:
         return "str__mmmm"
     def __add__(self, other):
         return 888
+    def __getitem__(self, item):
+        """
+        后去索引，并返回索引加10
+        :param item:
+        :return:
+        """
+        if type(item) == slice:
+            print(item.start)
+            print(item.stop)
+            print(item.step)
+        else:
+            return item + 10
 
 
 foo = Foo()
@@ -82,3 +94,27 @@ f1 = Foo()
 f2 = Foo()
 r = f1 + f2
 print(r, type(r))
+d = f1.__dict__
+print(d)
+print(f1[9])
+# 切片方式
+print(f1[1:5:2])
+
+
+class Entity:
+
+    def __init__(self):
+        pass
+
+    def __iter__(self):
+        return iter([11,22,33,44,55])
+
+
+# 声明Entity对象
+entity = Entity()
+# 如果类中有__iter__方法被称为可迭代对象。返回值是一个迭代器
+# for循环遇到迭代器直接执行next方法，如果获取的是可迭代对象需要手动执行next方法
+# 1.执行Entity对象的类Entity中的__iter__方法，并获取返回值
+# 2.循环可迭代对象
+for i in entity:
+    print(i)
